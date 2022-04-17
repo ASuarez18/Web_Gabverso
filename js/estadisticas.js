@@ -27,10 +27,49 @@ function load() {
 async function update(display) {
     console.trace('update');
     const { horasJuego } = await getEstadisticas();
-    // const { temp_int } = await getData();
     display.innerHTML = `
         <p>El jugador lleva un total de ${horasJuego} horas de juego</p>
     `;
+
+    drawGraph(30);
+}
+
+let grafica = null;
+function drawGraph(aciertos) {
+    if (!grafica) {
+        const g = document.getElementById('e-aciertos');
+        const ctx = g.getContext("2d");
+
+        let config = {
+            type: 'doughnut',
+            data: {
+                datasets: [
+                    {
+                        data: [ aciertos, 100 - aciertos],
+                        backgroundColor: [
+                            '#29BB2E',
+                            '#f54242'
+                        ]
+                    }
+                ]
+            }
+            ,
+            options: {
+                responsive: true,
+                circumference: 360,
+                rotation: -90,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                }
+            }
+        }
+        grafica = new Chart(ctx, config)
+    } else {
+        grafica.data.datasets[0].data = [ aciertos, 100 - aciertos];
+        grafica.update();
+    }
 }
 
 // Usuario
