@@ -10,7 +10,7 @@ const api = 'Gabverse-env.eba-ppaz8wkp.us-east-1.elasticbeanstalk.com';
 // }
 
 async function getEstadisticas() {
-    return fetch(`http://localhost:3000/database/estadistica/1`)
+    return fetch(`http://localhost:3001/database/estadistica/1`)
         .then(response => response.json())
         .then(json => json[0]);
 }
